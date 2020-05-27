@@ -6,6 +6,7 @@ public class ExchangeValue {
     private Long id;
     private String from,to;
     private BigDecimal conversionMultiple;
+    private int port;
 
     public ExchangeValue(Long id, String from, String to, BigDecimal conversionMultiple) {
         this.id = id;
@@ -42,7 +43,16 @@ public class ExchangeValue {
         return conversionMultiple;
     }
 
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
     public void setConversionMultiple(BigDecimal conversionMultiple) {
         this.conversionMultiple = conversionMultiple;
     }
+
 }
