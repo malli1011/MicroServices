@@ -1,4 +1,4 @@
-package com.spring.reactive;
+package com.spring.reactive.demo;
 
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.BaseSubscriber;
