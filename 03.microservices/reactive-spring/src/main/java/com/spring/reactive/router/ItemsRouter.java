@@ -1,6 +1,8 @@
 package com.spring.reactive.router;
 
+import com.spring.reactive.handler.ItemHandler;
 import com.spring.reactive.handler.SampleHandlerFunction;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -11,11 +13,12 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
-//@Configuration
-public class RouterFunctionConfig {
+@Configuration
+public class ItemsRouter {
+
     @Bean
-    public RouterFunction<ServerResponse> routerFunction(SampleHandlerFunction handlerFunction){
-        return RouterFunctions.route(GET("/functional/flux").and(accept(MediaType.APPLICATION_JSON)),handlerFunction::flux)
-                .andRoute(GET("/functional/mono").and(accept(MediaType.APPLICATION_JSON)),handlerFunction::mono);
+    public RouterFunction<ServerResponse> routerFunction(ItemHandler handlerFunction){
+        return RouterFunctions.route(GET("/v1/fun/items").and(accept(MediaType.APPLICATION_JSON)),handlerFunction::getAllItems)
+                .andRoute(GET("/v1/fun/item/{id}").and(accept(MediaType.APPLICATION_JSON)),handlerFunction::getItem);
     }
 }
