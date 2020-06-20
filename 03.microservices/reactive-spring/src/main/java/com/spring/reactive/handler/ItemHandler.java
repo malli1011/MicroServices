@@ -5,13 +5,10 @@ import com.spring.reactive.repository.ItemReactiveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
-
-import static org.springframework.web.reactive.function.BodyInserters.fromObject;
 
 @Component
 public class ItemHandler {
@@ -35,6 +32,21 @@ public class ItemHandler {
                 ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromValue(item)).switchIfEmpty(notfound));
+
+    }
+
+    public Mono<ServerResponse> createItem(ServerRequest request) {
+        Mono<Item> itemTobeInserted = request.bodyToMono(Item.class);
+        return itemTobeInserted.flatMap(item -> ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(itemReactiveRepository.save(item), Item.class));
+    }
+
+    public Mono<ServerResponse> deleteItem(ServerRequest request) {
+        String id = request.pathVariable("id");
+        Mono<Void> deleteItem = itemReactiveRepository.deleteById(id);
+        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+                .body(deleteItem, Void.class);
 
     }
 
