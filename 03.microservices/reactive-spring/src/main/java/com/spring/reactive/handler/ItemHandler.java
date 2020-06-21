@@ -50,4 +50,8 @@ public class ItemHandler {
 
     }
 
+    public Mono<ServerResponse> getAllItemsWithException(ServerRequest serverRequest){
+        throw new RuntimeException("Runtime Exception occurred");
+    }
+
 }
